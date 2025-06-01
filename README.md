@@ -47,6 +47,26 @@ This project follows **Clean Architecture** with a **Layered Structure**:
 
 #### **API Documentation**
 - **Swashbuckle.AspNetCore** (`6.6.2`) - Enables Swagger/OpenAPI documentation for the API
+## Performance Considerations
+
+The `OrderRepository` is built with several EF Core performance best practices:
+
+- **Read-Only Queries with `AsNoTracking()`**  
+  Improves performance by skipping EF Core’s change tracking for queries that don’t modify data.
+
+- **Eager Loading with `Include()`**  
+  Prevents multiple queries by loading related `Items` and `Customer` data in a single call.
+
+- **Efficient Pagination with `Skip()` / `Take()`**  
+  Reduces memory and database load when working with large datasets.
+
+- **Consistent Ordering with `OrderByDescending()`**  
+  Ensures stable pagination results by sorting orders by `CreatedAt`.
+
+- **Optimized Lookups with `FindAsync()`**  
+  Uses EF Core’s fast primary key lookup for retrieving individual records.
+
+These optimizations help ensure scalability, responsiveness, and efficient data access throughout the system.
 
 #### **Project References**
 Solution includes multiple layered projects:
